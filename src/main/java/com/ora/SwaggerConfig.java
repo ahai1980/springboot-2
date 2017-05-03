@@ -64,8 +64,8 @@ public class SwaggerConfig {
                 "1.0",//版本
                 "NO terms of service",
                 new Contact("jetora", "https://github.com/jetora", "jetoralook@outlook.com"),//作者
-                "RayeBlog",//链接显示文字
-                "http://www.raye.wang/"//网站链接
+                null,//链接显示文字
+                null//网站链接
         );
         return apiInfo;
     }
