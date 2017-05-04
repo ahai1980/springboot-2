@@ -13,10 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 public class GlobalErrorInfoHandler {
 
     @ExceptionHandler(value = GlobalErrorInfoException.class)
-    public ResultBody errorHandlerOverJson(HttpServletRequest request,
-                                           GlobalErrorInfoException exception) {
+    public Result errorHandlerOverJson(HttpServletRequest request,
+                                       GlobalErrorInfoException exception) {
         ErrorInfoInterface errorInfo = exception.getErrorInfo();
-        ResultBody result = new ResultBody(errorInfo);
+        Result result = new Result(errorInfo);
         return result;
     }
 }

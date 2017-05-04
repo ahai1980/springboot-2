@@ -1,21 +1,16 @@
 package com.ora.controller;
 
-import com.ora.constant.UserErrorInfoEnum;
 import com.ora.result.GlobalErrorInfoEnum;
 import com.ora.result.GlobalErrorInfoException;
-import com.ora.result.ResultBody;
-import org.springframework.util.StringUtils;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.ora.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import com.ora.model.User;
 import com.ora.service.UserService;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
 
@@ -45,8 +40,8 @@ public class UserController {
     /*public String add(@RequestBody User user)
         return "hello " + userService.add(user);
     }*/
-    public ResultBody add(@RequestBody User user) {
-        return new ResultBody(userService.add(user));
+    public Result add(@RequestBody User user) {
+        return new Result(userService.add(user));
     }
 
     /**
@@ -61,11 +56,11 @@ public class UserController {
     public User getCountryById(@PathVariable Integer id) {
         return userService.findByUserId(id);
     }*/
-    public ResultBody getCountryById(@PathVariable Integer id) throws GlobalErrorInfoException {
+    public Result getCountryById(@PathVariable Integer id) throws GlobalErrorInfoException {
         /*if (id.equals(null)) {
             throw new GlobalErrorInfoException(UserErrorInfoEnum.PARAMS_NO_COMPLETE);
         }*/
-        return new ResultBody(userService.findByUserId(id));
+        return new Result(userService.findByUserId(id));
     }
 
 
@@ -76,9 +71,10 @@ public class UserController {
      */
     @ApiOperation(value = "获取用户列表", notes = "获取用户列表", httpMethod = "GET")
     @RequestMapping(value = {"/list"})
-    public List<User> getUserList() {
+    public Result getUserList() {
         List<User> userList = userService.findAll();
-        return userList;
+        //return userList;
+        return new Result(userList);
     }
 
     @ApiOperation(value = "删除用户", notes = "删除用户", httpMethod = "POST")
@@ -92,11 +88,11 @@ public class UserController {
         }
         return result;
     }*/
-    public ResultBody deleteUser(@PathVariable Integer id) {
+    public Result deleteUser(@PathVariable Integer id) {
         if (userService.findByUserId(id) != null) {
-            return new ResultBody(userService.deleteUserByUserId(id));
+            return new Result(userService.deleteUserByUserId(id));
         }else{
-            return new ResultBody(GlobalErrorInfoEnum.NOT_FOUND);
+            return new Result(GlobalErrorInfoEnum.NOT_FOUND);
         }
     }
 }

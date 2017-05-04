@@ -4,7 +4,7 @@ package com.ora.result;
  * 返回体
  *
  */
-public class ResultBody {
+public class Result {
     /**
      * 响应代码
      */
@@ -20,12 +20,12 @@ public class ResultBody {
      */
     private Object result;
 
-    public ResultBody(ErrorInfoInterface errorInfo) {
+    public Result(ErrorInfoInterface errorInfo) {
         this.code = errorInfo.getCode();
         this.message = errorInfo.getMessage();
     }
 
-    public ResultBody(Object result) {
+    public Result(Object result) {
         this.code = GlobalErrorInfoEnum.SUCCESS.getCode();
         this.message = GlobalErrorInfoEnum.SUCCESS.getMessage();
         this.result = result;
