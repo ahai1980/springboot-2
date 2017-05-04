@@ -11,7 +11,6 @@ import com.ora.mapper.UserMapper;
 
 /**
  * 用户相关数据库操作实现类
- *
  */
 @Repository
 public class UserServiceImpl implements UserService {
@@ -30,6 +29,8 @@ public class UserServiceImpl implements UserService {
         return mapper.selectAll();
     }
 
-    ;
+    public Integer deleteUserByUserId(Integer id) {
+        return mapper.deleteByPrimaryKey(id);
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.ora.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,6 +10,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import com.ora.model.User;
 import com.ora.service.UserService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
 
@@ -30,7 +32,7 @@ public class UserController {
     @RequestMapping("/add")
     @ApiOperation(notes = "添加用户", value = "添加一个用户", httpMethod = "POST")
     /*
-	@ApiImplicitParams({
+    @ApiImplicitParams({
 		@ApiImplicitParam(name="nickname",paramType="query",dataType="string"),
 		@ApiImplicitParam(name="password",paramType="query",dataType="string")
 	})*/
@@ -40,7 +42,7 @@ public class UserController {
     }
 
     /**
-     * 查询所有用户
+     * 根据主键查询用户
      *
      * @return User
      * @since 2016年9月22日20:32:43
@@ -51,10 +53,27 @@ public class UserController {
         return userService.findByUserId(id);
     }
 
-    @ApiOperation(value = "获取用户列表", notes = "获取用户列表")
-    @RequestMapping(value = {"/list"}, method = RequestMethod.GET)
+    /**
+     * 查询所有用户
+     *
+     * @return List<User>
+     */
+    @ApiOperation(value = "获取用户列表", notes = "获取用户列表", httpMethod = "GET")
+    @RequestMapping(value = {"/list"})
     public List<User> getUserList() {
         List<User> userList = userService.findAll();
         return userList;
+    }
+
+    @ApiOperation(value = "删除用户", notes = "删除用户", httpMethod = "POST")
+    @RequestMapping(value = "/delete/{id}")
+    public Boolean deleteUser(@PathVariable Integer id) {
+        boolean result;
+        if (userService.findByUserId(id) != null) {
+            result = userService.deleteUserByUserId(id) > 0;
+        } else {
+            result = false;
+        }
+        return result;
     }
 }
