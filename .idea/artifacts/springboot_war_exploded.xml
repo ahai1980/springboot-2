@@ -65,6 +65,10 @@
           <element id="library" level="project" name="Maven: com.alibaba:druid:1.0.26" />
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.0.5" />
           <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.31" />
+          <element id="library" level="project" name="Maven: com.github.pagehelper:pagehelper-spring-boot-starter:1.1.1" />
+          <element id="library" level="project" name="Maven: com.github.pagehelper:pagehelper-spring-boot-autoconfigure:1.1.1" />
+          <element id="library" level="project" name="Maven: com.github.pagehelper:pagehelper:5.0.1" />
+          <element id="library" level="project" name="Maven: com.github.jsqlparser:jsqlparser:0.9.5" />
         </element>
       </element>
       <element id="directory" name="META-INF">
