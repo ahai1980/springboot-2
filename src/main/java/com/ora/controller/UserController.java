@@ -1,10 +1,12 @@
 package com.ora.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ora.result.GlobalErrorInfoEnum;
 import com.ora.result.GlobalErrorInfoException;
 import com.ora.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.alibaba.fastjson.JSON;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -13,6 +15,7 @@ import com.ora.model.User;
 import com.ora.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.util.*;
 
 @Api(value = "用户相关的接口")
@@ -24,6 +27,7 @@ public class UserController {
 
     static Map<Long, User> users = Collections.synchronizedMap(new HashMap<Long, User>());
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     /**
      * 添加用户
      *
@@ -41,9 +45,12 @@ public class UserController {
     /*public String add(@RequestBody User user)
         return "hello " + userService.add(user);
     }*/
-    public Result add(@RequestBody User user) {
+    public JSONObject add(@RequestBody User user) {
         logger.info("Enter addUser.........................");
-        return new Result(userService.add(user));
+
+        Result result = new Result(userService.add(user));
+        JSONObject jsonObj = (JSONObject) JSON.toJSON(result);
+        return jsonObj;
     }
 
     /**
@@ -58,12 +65,14 @@ public class UserController {
     public User getCountryById(@PathVariable Integer id) {
         return userService.findByUserId(id);
     }*/
-    public Result getUserById(@PathVariable Integer id) throws GlobalErrorInfoException {
+    public JSONObject getUserById(@PathVariable Integer id) throws GlobalErrorInfoException {
         /*if (id.equals(null)) {
             throw new GlobalErrorInfoException(UserErrorInfoEnum.PARAMS_NO_COMPLETE);
         }*/
         logger.info("Enter getUserById.........................");
-        return new Result(userService.findByUserId(id));
+        Result result = new Result(userService.findByUserId(id));
+        JSONObject jsonObj = (JSONObject) JSON.toJSON(result);
+        return jsonObj;
     }
 
 
@@ -74,11 +83,13 @@ public class UserController {
      */
     @ApiOperation(value = "获取用户列表", notes = "获取用户列表", httpMethod = "GET")
     @RequestMapping(value = {"/list"})
-    public Result getUserList() {
+    public JSONObject getUserList() {
         List<User> userList = userService.findAll();
         //return userList;
         logger.info("Enter getUserList.........................");
-        return new Result(userList);
+        Result result = new Result(userList);
+        JSONObject jsonObj = (JSONObject) JSON.toJSON(result);
+        return jsonObj;
     }
 
     @ApiOperation(value = "删除用户", notes = "删除用户", httpMethod = "POST")
@@ -92,12 +103,16 @@ public class UserController {
         }
         return result;
     }*/
-    public Result deleteUser(@PathVariable Integer id) {
+    public JSONObject deleteUser(@PathVariable Integer id) {
         if (userService.findByUserId(id) != null) {
             logger.info("User Found and doing deleteUser.........................");
-            return new Result(userService.deleteUserByUserId(id));
-        }else{
-            return new Result(GlobalErrorInfoEnum.NOT_FOUND);
+            Result result = new Result(userService.deleteUserByUserId(id));
+            JSONObject jsonObj = (JSONObject) JSON.toJSON(result);
+            return jsonObj;
+        } else {
+            Result result = new Result(GlobalErrorInfoEnum.NOT_FOUND);
+            JSONObject jsonObj = (JSONObject) JSON.toJSON(result);
+            return jsonObj;
         }
     }
 }
