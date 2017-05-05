@@ -4,6 +4,8 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
@@ -22,14 +24,15 @@ import com.alibaba.druid.pool.DruidDataSource;
 public class DruidDataSourceConfig  implements EnvironmentAware {
 
     private RelaxedPropertyResolver propertyResolver;
-
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
     public void setEnvironment(Environment env) {
         this.propertyResolver = new RelaxedPropertyResolver(env, "spring.datasource.");
     }
     
     @Bean
     public DataSource dataSource() {
-        System.out.println("注入druid！！！");
+        //System.out.println("注入druid！！！");
+        logger.info("注入druid!!!................................");
         DruidDataSource datasource = new DruidDataSource();
         datasource.setUrl(propertyResolver.getProperty("url"));
         datasource.setDriverClassName(propertyResolver.getProperty("driver-class-name"));

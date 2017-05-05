@@ -11,7 +11,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import com.ora.model.User;
 import com.ora.service.UserService;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.*;
 
 @Api(value = "用户相关的接口")
@@ -22,7 +23,7 @@ public class UserController {
     private UserService userService;
 
     static Map<Long, User> users = Collections.synchronizedMap(new HashMap<Long, User>());
-
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
     /**
      * 添加用户
      *
@@ -41,6 +42,7 @@ public class UserController {
         return "hello " + userService.add(user);
     }*/
     public Result add(@RequestBody User user) {
+        logger.info("Enter addUser.........................");
         return new Result(userService.add(user));
     }
 
@@ -56,10 +58,11 @@ public class UserController {
     public User getCountryById(@PathVariable Integer id) {
         return userService.findByUserId(id);
     }*/
-    public Result getCountryById(@PathVariable Integer id) throws GlobalErrorInfoException {
+    public Result getUserById(@PathVariable Integer id) throws GlobalErrorInfoException {
         /*if (id.equals(null)) {
             throw new GlobalErrorInfoException(UserErrorInfoEnum.PARAMS_NO_COMPLETE);
         }*/
+        logger.info("Enter getUserById.........................");
         return new Result(userService.findByUserId(id));
     }
 
@@ -74,6 +77,7 @@ public class UserController {
     public Result getUserList() {
         List<User> userList = userService.findAll();
         //return userList;
+        logger.info("Enter getUserList.........................");
         return new Result(userList);
     }
 
@@ -90,6 +94,7 @@ public class UserController {
     }*/
     public Result deleteUser(@PathVariable Integer id) {
         if (userService.findByUserId(id) != null) {
+            logger.info("User Found and doing deleteUser.........................");
             return new Result(userService.deleteUserByUserId(id));
         }else{
             return new Result(GlobalErrorInfoEnum.NOT_FOUND);
